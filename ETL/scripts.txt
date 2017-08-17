@@ -1,0 +1,15 @@
+select * from dim_community_areas
+
+select * from  dim_location
+select * from dim_IUCR
+
+drop table fact_crimes
+
+select c.*, t.date, ca.description, l."location"
+from fact_crimes c
+join dim_time t on t.id = c.dim_time_id
+join dim_location l on l.id = c.dim_location_id
+join dim_IUCR i on i.id = c.dim_iucr_id
+join dim_community_areas ca on ca.id = c.dim_community_id
+
+INSERT INTO dim_location ("Location Description") VALUES ( NULL)
