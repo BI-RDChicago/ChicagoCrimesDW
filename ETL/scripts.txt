@@ -1,9 +1,20 @@
 select * from dim_community_areas
 
-select * from  dim_location
+select * from dim_community_areas
 select * from dim_IUCR
+select * from dim_location
+select * from dim_time
 
+drop table community_areas
+drop table dim_IUCR
+drop table dim_location
+drop table dim_time
 drop table fact_crimes
+
+
+
+truncate table fact_crimes
+
 
 select c.*, t.date, ca.description, l."location"
 from fact_crimes c
@@ -11,5 +22,45 @@ join dim_time t on t.id = c.dim_time_id
 join dim_location l on l.id = c.dim_location_id
 join dim_IUCR i on i.id = c.dim_iucr_id
 join dim_community_areas ca on ca.id = c.dim_community_id
+limit 10000
 
-INSERT INTO dim_location ("Location Description") VALUES ( NULL)
+:binary.
+:boolean.
+:date.
+:datetime.
+:decimal.
+:float.
+:integer.
+:primary_key.
+
+Comm:
+Bundle Install
+rake db:migrate
+
+rails g model CommunityArea source_id:integer description:text
+
+rails g model Time date:date year:integer month:integer monthname:text day:integer dayofyear:integer weekdayname:text calendarweek:integer
+
+
+  "date" TIMESTAMP
+, "year" BIGINT
+, "month" BIGINT
+, monthname VARCHAR(9)
+, "day" BIGINT
+, dayofyear BIGINT
+, weekdayname VARCHAR(13)
+, calendarweek BIGINT
+, formatteddate VARCHAR(12)
+, quartal VARCHAR(2)
+, yearquartal VARCHAR(7)
+, yearmonth VARCHAR(7)
+, yearcalendarweek VARCHAR(7)
+, weekend VARCHAR(7)
+, americanholiday VARCHAR(10)
+, austrianholiday VARCHAR(10)
+, canadianholiday VARCHAR(10)
+, period VARCHAR(16)
+, cwstart TIMESTAMP
+, cwend TIMESTAMP
+, monthstart TIMESTAMP
+, monthend TIMESTAMP
