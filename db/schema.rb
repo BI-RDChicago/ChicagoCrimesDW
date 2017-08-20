@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170820032914) do
+ActiveRecord::Schema.define(version: 20170820035329) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,4 +63,23 @@ ActiveRecord::Schema.define(version: 20170820032914) do
     t.datetime "updated_at",       null: false
   end
 
+  create_table "fact_crimes", force: :cascade do |t|
+    t.integer  "dim_community_areas_id"
+    t.integer  "dim_times_id"
+    t.integer  "dim_iucrs_id"
+    t.integer  "dim_locations_id"
+    t.integer  "quantity"
+    t.integer  "arrest_qnt"
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.index ["dim_community_areas_id"], name: "index_fact_crimes_on_dim_community_areas_id", using: :btree
+    t.index ["dim_iucrs_id"], name: "index_fact_crimes_on_dim_iucrs_id", using: :btree
+    t.index ["dim_locations_id"], name: "index_fact_crimes_on_dim_locations_id", using: :btree
+    t.index ["dim_times_id"], name: "index_fact_crimes_on_dim_times_id", using: :btree
+  end
+
+  add_foreign_key "fact_crimes", "dim_community_areas", column: "dim_community_areas_id"
+  add_foreign_key "fact_crimes", "dim_iucrs", column: "dim_iucrs_id"
+  add_foreign_key "fact_crimes", "dim_locations", column: "dim_locations_id"
+  add_foreign_key "fact_crimes", "dim_times", column: "dim_times_id"
 end
