@@ -3,13 +3,13 @@ Rails.application.routes.draw do
   
   	root 'crimes#index'
 
- 	get 'communityfilter' => 'crimes#communityfilter'
- 	get 'timefilter' => 'crimes#timefilter'
- 	get 'locationfilter' => 'crimes#locationfilter'
+ 	get 'community_filter' => 'crimes#community_filter'
+ 	get 'time_filter' => 'crimes#time_filter'
+ 	get 'location_filter' => 'crimes#location_filter'
 
-	post 'communityfilterapply' => 'crimes#communityfilterapply'
-	post 'timefilterapply' => 'crimes#timefilterapply'
-	post 'locationfilterapply' => 'crimes#locationfilterapply'
+	post 'community_filter_apply' => 'crimes#community_filter_apply'
+	post 'time_filter_apply' => 'crimes#time_filter_apply'
+	post 'location_filter_apply' => 'crimes#location_filter_apply'
 	
  	resources :crimes
 end

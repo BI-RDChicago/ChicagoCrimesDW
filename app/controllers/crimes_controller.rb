@@ -7,7 +7,7 @@ class CrimesController < ApplicationController
 									.joins(:CommunityArea).group("dim_community_areas.description")
 									.order("sum(quantity) desc")
 
-	end
+	end	
 
 	def filters(start, finish, arrest, comm_id, groupby)
 		@start = Date.new(*start.values.map(&:to_i))
@@ -15,38 +15,38 @@ class CrimesController < ApplicationController
 		@arrest = arrest
 		@id_source = comm_id
 		@groupby = groupby
-		communityarea_description(@id_source)
+		community_area_description(@id_source)
 
 	end
 
-	def communityarea_description(id_source)
+	def community_area_description(id_source)
 		
 		if id_source != "0"
-			@communityarea_desc = CommunityArea.find(id_source).description
+			@community_area_desc = CommunityArea.find(id_source).description
 		else
-			@communityarea_desc = "All"
+			@community_area_desc = "All"
 		end
 	end
 
-	def communityfilter
+	def community_filter
 
 		@community_areas = CommunityArea.all.order("description")
 
 	end
 
-	def timefilter
+	def time_filter
 
 		@community_areas = CommunityArea.all.order("description")
 
 	end
 
-	def locationfilter
+	def location_filter
 
 		@community_areas = CommunityArea.all.order("description")
 
 	end
 
-	def communityfilterapply
+	def community_filter_apply
 
 		filters(params[:start], params[:finish], params[:arrest], params[:comm_id], params[:groupby])		
 
@@ -66,7 +66,7 @@ class CrimesController < ApplicationController
 
 	end
 
-	def timefilterapply
+	def time_filter_apply
 
 		filters(params[:start], params[:finish], params[:arrest], params[:comm_id], params[:groupby])		
 
@@ -95,7 +95,7 @@ class CrimesController < ApplicationController
 	end
 
 
-	def locationfilterapply
+	def location_filter_apply
 
 		filters(params[:start], params[:finish], params[:arrest], params[:comm_id], params[:groupby])		
 
