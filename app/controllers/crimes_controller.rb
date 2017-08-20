@@ -72,28 +72,24 @@ class CrimesController < ApplicationController
 		
 		if @groupby == "yyyy"
 			if @arrest == "all"
-				scope = Crime.select("to_char(date, 'yyyy') as start" , "sum(quantity) as qnt").group("to_char(date, 'yyyy'),to_char(date, 'yyyy')")
+				scope = Crime.select("to_char(date, 'yyyy') as start" , "sum(quantity) as qnt").group("to_char(date, 'yyyy'),to_char(date, 'yyyy')").order("sum(quantity) desc")
 			else
-				scope = Crime.select("to_char(date, 'yyyy') as start" , "sum(arrest_qnt) as qnt").group("to_char(date, 'yyyy'),to_char(date, 'yyyy')")
+				scope = Crime.select("to_char(date, 'yyyy') as start" , "sum(arrest_qnt) as qnt").group("to_char(date, 'yyyy'),to_char(date, 'yyyy')").order("sum(arrest_qnt) desc")
 			end
 		else
 			if @arrest == "all"
-				scope = Crime.select("to_char(date, 'MM/yyyy') as start" , "sum(quantity) as qnt").group("to_char(date, 'MM/yyyy'),to_char(date, 'yyyy/MM')")
+				scope = Crime.select("to_char(date, 'MM/yyyy') as start" , "sum(quantity) as qnt").group("to_char(date, 'MM/yyyy'),to_char(date, 'yyyy/MM')").order("sum(quantity) desc")
 			else
-				scope = Crime.select("to_char(date, 'MM/yyyy') as start" , "sum(arrest_qnt) as qnt").group("to_char(date, 'MM/yyyy'),to_char(date, 'yyyy/MM')")
+				scope = Crime.select("to_char(date, 'MM/yyyy') as start" , "sum(arrest_qnt) as qnt").group("to_char(date, 'MM/yyyy'),to_char(date, 'yyyy/MM')").order("sum(arrest_qnt) desc")
 			end
 		end
 
+		scope = scope.joins(:CommunityArea)		
+		scope = scope.joins(:DimTime)
 
-
-
-		scope = @groupby == "yyyy" ? Crime.select("to_char(date, 'yyyy') as start" , "count(0) as qnt").group("to_char(date, 'yyyy'),to_char(date, 'yyyy')") 
-								   : Crime.select("to_char(date, 'MM/yyyy') as start" , "count(0) as qnt").group("to_char(date, 'MM/yyyy'),to_char(date, 'yyyy/MM')")  
-		
-		scope = scope.joins(:CommunityArea).order("count(0) desc")
-
-		scope = @id_source != "0" ? scope.where(CommunityArea: @id_source) : scope 
-		scope = @arrest != "all" ? scope.where(arrest: @arrest) : scope 
+		if @id_source != "0"
+			scope = scope.where(CommunityArea: @id_source)
+		end
 
 		@time_filtered = scope
 	end
