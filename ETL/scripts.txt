@@ -39,28 +39,14 @@ rake db:migrate
 
 rails g model CommunityArea source_id:integer description:text
 
-rails g model Time date:date year:integer month:integer monthname:text day:integer dayofyear:integer weekdayname:text calendarweek:integer
+rails g model DimTime date:date year:integer month:integer monthname:text day:integer dayofyear:integer weekdayname:text calendarweek:integer formatteddate:text quartal:text yearquartal:text yearmonth:text yearcalendarweek:text weekend:text americanholiday:text austrianholiday:text canadianholiday:text period:text cwstart:date cwend:date monthstart:date monthend:date
 
+rails g model iucr iucr_code:text primary_description:text secondary_description:text
 
-  "date" TIMESTAMP
-, "year" BIGINT
-, "month" BIGINT
-, monthname VARCHAR(9)
-, "day" BIGINT
-, dayofyear BIGINT
-, weekdayname VARCHAR(13)
-, calendarweek BIGINT
-, formatteddate VARCHAR(12)
-, quartal VARCHAR(2)
-, yearquartal VARCHAR(7)
-, yearmonth VARCHAR(7)
-, yearcalendarweek VARCHAR(7)
-, weekend VARCHAR(7)
-, americanholiday VARCHAR(10)
-, austrianholiday VARCHAR(10)
-, canadianholiday VARCHAR(10)
-, period VARCHAR(16)
-, cwstart TIMESTAMP
-, cwend TIMESTAMP
-, monthstart TIMESTAMP
-, monthend TIMESTAMP
+rails g model location name:text
+
+  iucrcode VARCHAR(100)
+, primary_description VARCHAR(33)
+, secondary_description VARCHAR(59)
+, created_at TIMESTAMP
+, updated_at TIMESTAMP

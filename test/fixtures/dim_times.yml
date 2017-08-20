@@ -1,0 +1,49 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  date: 2017-08-19
+  year: 1
+  month: 1
+  monthname: MyText
+  day: 1
+  dayofyear: 1
+  weekdayname: MyText
+  calendarweek: 1
+  formatteddate: MyText
+  quartal: MyText
+  yearquartal: MyText
+  yearmonth: MyText
+  yearcalendarweek: MyText
+  weekend: MyText
+  americanholiday: MyText
+  austrianholiday: MyText
+  canadianholiday: MyText
+  period: MyText
+  cwstart: 2017-08-19
+  cwend: 2017-08-19
+  monthstart: 2017-08-19
+  monthend: 2017-08-19
+
+two:
+  date: 2017-08-19
+  year: 1
+  month: 1
+  monthname: MyText
+  day: 1
+  dayofyear: 1
+  weekdayname: MyText
+  calendarweek: 1
+  formatteddate: MyText
+  quartal: MyText
+  yearquartal: MyText
+  yearmonth: MyText
+  yearcalendarweek: MyText
+  weekend: MyText
+  americanholiday: MyText
+  austrianholiday: MyText
+  canadianholiday: MyText
+  period: MyText
+  cwstart: 2017-08-19
+  cwend: 2017-08-19
+  monthstart: 2017-08-19
+  monthend: 2017-08-19
