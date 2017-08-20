@@ -2,20 +2,10 @@ class CrimesController < ApplicationController
 
 	
 	def index
-
-		#@community_areas_map = CommunityArea.all.map { |e| [e.description,e.id]  }
 		
 		@community_grouped = Crime.select("dim_community_areas.description", "sum(quantity) as qnt")
 									.joins(:CommunityArea).group("dim_community_areas.description")
 									.order("sum(quantity) desc")
-
-		# @location_grouped = Crime.select("dim_locations.name", "sum(quantity) as qnt")
-		# 							.joins(:location).group("dim_locations.name")
-		# 							.order("sum(quantity) desc")
-
-		# @iucr_grouped = Crime.select("dim_iucrs.primary_description", "sum(quantity) as qnt")
-		# 							.joins(:iucr).group("dim_iucrs.primary_description")
-		# 							.order("sum(quantity) desc")
 
 	end
 
@@ -103,12 +93,18 @@ class CrimesController < ApplicationController
 		@groupby = params[:groupby]
 		@communityarea_desc = @id_source != "0" ? CommunityArea.find(@id_source).description : "All"
 		
-		scope = Crime.select("location_description as location" , "count(0) as qnt").group("location_description") 
 
-		scope = scope.joins(:CommunityArea).order("count(0) desc")
+		if @arrest == "all"
+			scope = Crime.select("dim_locations.name", "sum(quantity) as qnt").order("sum(quantity) desc")
+		else
+			scope = Crime.select("dim_locations.name", "sum(arrest_qnt) as qnt").order("sum(arrest_qnt) desc")
+		end
 
-		scope = @id_source != "0" ? scope.where(CommunityArea: @id_source) : scope 
-		scope = @arrest != "all" ? scope.where(arrest: @arrest) : scope 
+		scope = scope.joins(:location).group("dim_locations.name") 
+
+		if @id_source != "0"
+			scope = scope.where(CommunityArea: @id_source)
+		end
 
 		@location_filtered = scope
 	end
