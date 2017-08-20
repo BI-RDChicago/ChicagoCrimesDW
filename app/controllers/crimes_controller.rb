@@ -62,6 +62,9 @@ class CrimesController < ApplicationController
 			scope = scope.where(CommunityArea: @id_source)
 		end
 
+		scope = scope.joins(:DimTime)
+		scope = scope.where("dim_times.date" => @start..@finish)
+
 		@community_grouped = scope
 
 	end
@@ -85,11 +88,13 @@ class CrimesController < ApplicationController
 		end
 
 		scope = scope.joins(:CommunityArea)		
-		scope = scope.joins(:DimTime)
 
 		if @id_source != "0"
 			scope = scope.where(CommunityArea: @id_source)
 		end
+
+		scope = scope.joins(:DimTime)
+		scope = scope.where("dim_times.date" => @start..@finish)
 
 		@time_filtered = scope
 	end
@@ -110,6 +115,9 @@ class CrimesController < ApplicationController
 		if @id_source != "0"
 			scope = scope.where(CommunityArea: @id_source)
 		end
+
+		scope = scope.joins(:DimTime)
+		scope = scope.where("dim_times.date" => @start..@finish)
 
 		@location_filtered = scope
 	end
