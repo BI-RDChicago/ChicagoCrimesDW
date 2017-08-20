@@ -9,6 +9,25 @@ class CrimesController < ApplicationController
 
 	end
 
+	def filters(start, finish, arrest, comm_id, groupby)
+		@start = Date.new(*start.values.map(&:to_i))
+		@finish = Date.new(*finish.values.map(&:to_i))
+		@arrest = arrest
+		@id_source = comm_id
+		@groupby = groupby
+		communityarea_description(@id_source)
+
+	end
+
+	def communityarea_description(id_source)
+		
+		if id_source != "0"
+			@communityarea_desc = CommunityArea.find(id_source).description
+		else
+			@communityarea_desc = "All"
+		end
+	end
+
 	def communityfilter
 
 		@community_areas = CommunityArea.all.order("description")
@@ -29,11 +48,7 @@ class CrimesController < ApplicationController
 
 	def communityfilterapply
 
-		@start = Date.new(*params[:start].values.map(&:to_i))
-		@finish = Date.new(*params[:finish].values.map(&:to_i))
-		@arrest = params[:arrest]
-		@id_source = params[:comm_id]
-		@communityarea_desc = @id_source != "0" ? CommunityArea.find(@id_source).description : "All"
+		filters(params[:start], params[:finish], params[:arrest], params[:comm_id], params[:groupby])		
 
 		if @arrest == "all"
 			scope = Crime.select("dim_community_areas.description", "sum(quantity) as qnt")
@@ -53,13 +68,8 @@ class CrimesController < ApplicationController
 
 	def timefilterapply
 
-		@start = Date.new(*params[:start].values.map(&:to_i))
-		@finish = Date.new(*params[:finish].values.map(&:to_i))
-		@arrest = params[:arrest]
-		@id_source = params[:comm_id]
-		@groupby = params[:groupby]
-		@communityarea_desc = @id_source != "0" ? CommunityArea.find(@id_source).description : "All"
-		
+		filters(params[:start], params[:finish], params[:arrest], params[:comm_id], params[:groupby])		
+
 		if @groupby == "yyyy"
 			if @arrest == "all"
 				scope = Crime.select("to_char(date, 'yyyy') as start" , "sum(quantity) as qnt").group("to_char(date, 'yyyy'),to_char(date, 'yyyy')").order("sum(quantity) desc")
@@ -84,15 +94,10 @@ class CrimesController < ApplicationController
 		@time_filtered = scope
 	end
 
+
 	def locationfilterapply
 
-		@start = Date.new(*params[:start].values.map(&:to_i))
-		@finish = Date.new(*params[:finish].values.map(&:to_i))
-		@arrest = params[:arrest]
-		@id_source = params[:comm_id]
-		@groupby = params[:groupby]
-		@communityarea_desc = @id_source != "0" ? CommunityArea.find(@id_source).description : "All"
-		
+		filters(params[:start], params[:finish], params[:arrest], params[:comm_id], params[:groupby])		
 
 		if @arrest == "all"
 			scope = Crime.select("dim_locations.name", "sum(quantity) as qnt").order("sum(quantity) desc")
