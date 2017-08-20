@@ -50,22 +50,7 @@ class CrimesController < ApplicationController
 
 		filters(params[:start], params[:finish], params[:arrest], params[:comm_id], params[:groupby])		
 
-		if @arrest == "all"
-			scope = Crime.select("dim_community_areas.description", "sum(quantity) as qnt")
-		else
-			scope = Crime.select("dim_community_areas.description", "sum(arrest_qnt) as qnt")
-		end
-
-		scope = scope.joins(:CommunityArea).group("dim_community_areas.description").order("count(0) desc")
-
-		if @id_source != "0"
-			scope = scope.where(CommunityArea: @id_source)
-		end
-
-		scope = scope.joins(:DimTime)
-		scope = scope.where("dim_times.date" => @start..@finish)
-
-		@community_grouped = scope
+		@community_grouped = Crime.community_filter_scope(@start, @finish, @arrest, @comm_id, @groupby)
 
 	end
 
