@@ -45,6 +45,9 @@ rails g model iucr iucr_code:text primary_description:text secondary_description
 
 rails g model location name:text
 
+rails g model crime communityarea:references dimtime:references iucr:references location:references quantity:integer arrest_qnt:integer
+
+
   iucrcode VARCHAR(100)
 , primary_description VARCHAR(33)
 , secondary_description VARCHAR(59)

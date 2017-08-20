@@ -9,9 +9,9 @@
           </tr>
         </thead>            
         <tbody>
-         <% @iucr_grouped.each do |comm| %>
+         <% @community_grouped.each do |comm| %>
          <tr>
-            <td><%= comm.primary_description %></td>
+            <td><%= comm.description %></td>
             <td><%= comm.qnt %></td>
          </tr>
          <%  end %>
