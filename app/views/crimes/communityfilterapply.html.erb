@@ -1,4 +1,11 @@
-<h1>Crimes Index</h1>
+<<%= link_to 'Back', url_for(:back) %>
+
+<h2>Community Analisys</h2>
+<p><b>Filters: </b></p>
+<p>Community: <%= @communityarea_desc %></p>
+<p>Start Date: <%= @start %></p>
+<p>Finish Date: <%= @finish %></p>
+<p>Arrest: <%= @arrest %></p>
 
   <div>
       <table class="table table-striped">
@@ -9,9 +16,9 @@
           </tr>
         </thead>            
         <tbody>
-         <% @iucr_grouped.each do |comm| %>
+         <% @community_grouped.each do |comm| %>
          <tr>
-            <td><%= comm.primary_description %></td>
+            <td><%= comm.description %></td>
             <td><%= comm.qnt %></td>
          </tr>
          <%  end %>
