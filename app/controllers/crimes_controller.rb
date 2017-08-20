@@ -45,11 +45,17 @@ class CrimesController < ApplicationController
 		@id_source = params[:comm_id]
 		@communityarea_desc = @id_source != "0" ? CommunityArea.find(@id_source).description : "All"
 
+		if @arrest == "all"
+			scope = Crime.select("dim_community_areas.description", "sum(quantity) as qnt")
+		else
+			scope = Crime.select("dim_community_areas.description", "sum(arrest_qnt) as qnt")
+		end
 
-		scope = Crime.select("community_areas.description", "sum(quantity) as qnt").joins(:CommunityArea).group("community_areas.description").order("count(0) desc")
+		scope = scope.joins(:CommunityArea).group("dim_community_areas.description").order("count(0) desc")
 
-		scope = @id_source != "0" ? scope.where(CommunityArea: @id_source) : scope 
-		scope = @arrest != "all" ? scope.where(arrest: @arrest) : scope 
+		if @id_source != "0"
+			scope = scope.where(CommunityArea: @id_source)
+		end
 
 		@community_grouped = scope
 
@@ -64,6 +70,23 @@ class CrimesController < ApplicationController
 		@groupby = params[:groupby]
 		@communityarea_desc = @id_source != "0" ? CommunityArea.find(@id_source).description : "All"
 		
+		if @groupby == "yyyy"
+			if @arrest == "all"
+				scope = Crime.select("to_char(date, 'yyyy') as start" , "sum(quantity) as qnt").group("to_char(date, 'yyyy'),to_char(date, 'yyyy')")
+			else
+				scope = Crime.select("to_char(date, 'yyyy') as start" , "sum(arrest_qnt) as qnt").group("to_char(date, 'yyyy'),to_char(date, 'yyyy')")
+			end
+		else
+			if @arrest == "all"
+				scope = Crime.select("to_char(date, 'MM/yyyy') as start" , "sum(quantity) as qnt").group("to_char(date, 'MM/yyyy'),to_char(date, 'yyyy/MM')")
+			else
+				scope = Crime.select("to_char(date, 'MM/yyyy') as start" , "sum(arrest_qnt) as qnt").group("to_char(date, 'MM/yyyy'),to_char(date, 'yyyy/MM')")
+			end
+		end
+
+
+
+
 		scope = @groupby == "yyyy" ? Crime.select("to_char(date, 'yyyy') as start" , "count(0) as qnt").group("to_char(date, 'yyyy'),to_char(date, 'yyyy')") 
 								   : Crime.select("to_char(date, 'MM/yyyy') as start" , "count(0) as qnt").group("to_char(date, 'MM/yyyy'),to_char(date, 'yyyy/MM')")  
 		
