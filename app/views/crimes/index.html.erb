@@ -1,0 +1,21 @@
+<h1>Crimes Index</h1>
+
+  <div>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Community</th>
+            <th>Quantity</th>
+          </tr>
+        </thead>            
+        <tbody>
+         <% @community_grouped.each do |comm| %>
+         <tr>
+            <td><%= comm.description %></td>
+            <td><%= comm.qnt %></td>
+         </tr>
+         <%  end %>
+
+        </tbody>
+      </table>
+  </div>

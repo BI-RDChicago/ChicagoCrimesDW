@@ -1,0 +1,30 @@
+
+<div class="form-group">
+<%= form_tag(action: "time_filter_apply") do %>
+  Community Area: 
+            <select name="comm_id" class="form-control">  
+                <option value=0>All</option>
+                <% @community_areas.each do |comm| %>
+                  <option value=<%=comm.id%>>
+                    <%= content_tag(:source_id, comm.description.titleize) %>
+                  </option>
+                <% end %>
+            </select>
+  Start Date:  <%= date_select :start, "Start Date", start_year: 2001%> 
+  Finish Date:  <%= date_select :finish, "Finish Date" , start_year: 2001%>
+  <br />
+  Filter by arrest:
+  <%= radio_button_tag(:arrest, "true") %>
+  <%= label_tag(:arrest_true, "true") %>
+  <%= radio_button_tag(:arrest, "all", true) %>
+  <%= label_tag(:arrest_all, "all") %>
+  <br />
+  Group by:
+  <%= radio_button_tag(:groupby, "yyyy/MM", true) %>
+  <%= label_tag(:groupby_ym, "Year and Month") %>
+  <%= radio_button_tag(:groupby, "yyyy") %>
+  <%= label_tag(:groupby_y, "Year") %>
+  <br />
+  <%= submit_tag :Submit, class: 'btn btn-success'%>
+<% end %>
+</div>

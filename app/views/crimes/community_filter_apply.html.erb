@@ -1,0 +1,28 @@
+<<%= link_to 'Back', url_for(:back) %>
+
+<h2>Community Analisys</h2>
+<p><b>Filters: </b></p>
+<p>Community: <%= @community_area_desc %></p>
+<p>Start Date: <%= @start %></p>
+<p>Finish Date: <%= @finish %></p>
+<p>Arrest: <%= @arrest %></p>
+
+  <div>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Community</th>
+            <th>Quantity</th>
+          </tr>
+        </thead>            
+        <tbody>
+         <% @community_filtered.each do |comm| %>
+         <tr>
+            <td><%= comm.description %></td>
+            <td><%= comm.qnt %></td>
+         </tr>
+         <%  end %>
+
+        </tbody>
+      </table>
+  </div>

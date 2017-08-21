@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  communityarea: one
+  dimtime: one
+  iucr: one
+  location: one
+  quantity: 1
+  arrest_qnt: 1
+
+two:
+  communityarea: two
+  dimtime: two
+  iucr: two
+  location: two
+  quantity: 1
+  arrest_qnt: 1

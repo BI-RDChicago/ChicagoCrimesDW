@@ -1,0 +1,55 @@
+select * from dim_community_areas
+
+select * from dim_community_areas
+select * from dim_IUCR
+select * from dim_location
+select * from dim_time
+
+drop table community_areas
+drop table dim_IUCR
+drop table dim_location
+drop table dim_time
+drop table fact_crimes
+
+
+
+truncate table fact_crimes
+
+
+select c.*, t.date, ca.description, l."location"
+from fact_crimes c
+join dim_time t on t.id = c.dim_time_id
+join dim_location l on l.id = c.dim_location_id
+join dim_IUCR i on i.id = c.dim_iucr_id
+join dim_community_areas ca on ca.id = c.dim_community_id
+limit 10000
+
+:binary.
+:boolean.
+:date.
+:datetime.
+:decimal.
+:float.
+:integer.
+:primary_key.
+
+Comm:
+Bundle Install
+rake db:migrate
+
+rails g model CommunityArea source_id:integer description:text
+
+rails g model DimTime date:date year:integer month:integer monthname:text day:integer dayofyear:integer weekdayname:text calendarweek:integer formatteddate:text quartal:text yearquartal:text yearmonth:text yearcalendarweek:text weekend:text americanholiday:text austrianholiday:text canadianholiday:text period:text cwstart:date cwend:date monthstart:date monthend:date
+
+rails g model iucr iucr_code:text primary_description:text secondary_description:text
+
+rails g model location name:text
+
+rails g model crime communityarea:references dimtime:references iucr:references location:references quantity:integer arrest_qnt:integer
+
+
+  iucrcode VARCHAR(100)
+, primary_description VARCHAR(33)
+, secondary_description VARCHAR(59)
+, created_at TIMESTAMP
+, updated_at TIMESTAMP
