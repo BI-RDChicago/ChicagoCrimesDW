@@ -572,13 +572,13 @@
       <eat_row_on_failure>N</eat_row_on_failure>
       <key>
         <name>Community Area</name>
-        <field>id_source</field>
+        <field>source_id</field>
         <condition>=</condition>
         <name2 />
       </key>
       <value>
         <name>id</name>
-        <rename>dim_community_id</rename>
+        <rename>dim_community_areas_id</rename>
         <default />
         <type>None</type>
       </value>
@@ -591,8 +591,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>464</xloc>
-      <yloc>96</yloc>
+      <xloc>448</xloc>
+      <yloc>80</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -610,35 +610,27 @@
     <fields>
       <field>
         <name>ID</name>
-        <rename />
       </field>
       <field>
         <name>Date</name>
-        <rename />
       </field>
       <field>
         <name>Primary Type</name>
-        <rename />
       </field>
       <field>
         <name>Description</name>
-        <rename />
       </field>
       <field>
         <name>Location Description</name>
-        <rename />
       </field>
       <field>
         <name>Arrest</name>
-        <rename />
       </field>
       <field>
         <name>Domestic</name>
-        <rename />
       </field>
       <field>
         <name>Community Area</name>
-        <rename />
       </field>
       <field>
         <name>IUCR</name>
@@ -671,8 +663,102 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>320</xloc>
-      <yloc>224</yloc>
+      <xloc>304</xloc>
+      <yloc>208</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Dim Location</name>
+    <type>DBLookup</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <connection>ChicagoCrimesAnalisysDW</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema />
+      <table>dim_locations</table>
+      <orderby />
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>Location Description</name>
+        <field>name</field>
+        <condition>=</condition>
+        <name2 />
+      </key>
+      <value>
+        <name>id</name>
+        <rename>dim_locations_id</rename>
+        <default />
+        <type>None</type>
+      </value>
+    </lookup>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>720</xloc>
+      <yloc>80</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Dim Time Lookup</name>
+    <type>DBLookup</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <connection>ChicagoCrimesAnalisysDW</connection>
+    <cache>Y</cache>
+    <cache_load_all>Y</cache_load_all>
+    <cache_size>0</cache_size>
+    <lookup>
+      <schema />
+      <table>dim_times</table>
+      <orderby />
+      <fail_on_multiple>N</fail_on_multiple>
+      <eat_row_on_failure>N</eat_row_on_failure>
+      <key>
+        <name>DateConverted</name>
+        <field>date</field>
+        <condition>=</condition>
+        <name2 />
+      </key>
+      <value>
+        <name>id</name>
+        <rename>dim_times_id</rename>
+        <default />
+        <type>None</type>
+      </value>
+    </lookup>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>720</xloc>
+      <yloc>208</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -695,8 +781,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>320</xloc>
-      <yloc>96</yloc>
+      <xloc>304</xloc>
+      <yloc>80</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -719,8 +805,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>464</xloc>
-      <yloc>224</yloc>
+      <xloc>448</xloc>
+      <yloc>208</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -743,8 +829,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>608</xloc>
-      <yloc>96</yloc>
+      <xloc>592</xloc>
+      <yloc>80</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -783,8 +869,68 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1024</xloc>
-      <yloc>224</yloc>
+      <xloc>1008</xloc>
+      <yloc>208</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Group by</name>
+    <type>GroupBy</type>
+    <description />
+    <distribute>Y</distribute>
+    <custom_distribution />
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name />
+    </partitioning>
+    <all_rows>N</all_rows>
+    <ignore_aggregate>N</ignore_aggregate>
+    <field_ignore />
+    <directory>%%java.io.tmpdir%%</directory>
+    <prefix>grp</prefix>
+    <add_linenr>N</add_linenr>
+    <linenr_fieldname />
+    <give_back_row>N</give_back_row>
+    <group>
+      <field>
+        <name>dim_times_id</name>
+      </field>
+      <field>
+        <name>dim_community_areas_id</name>
+      </field>
+      <field>
+        <name>dim_iucrs_id</name>
+      </field>
+      <field>
+        <name>dim_locations_id</name>
+      </field>
+    </group>
+    <fields>
+      <field>
+        <aggregate>quantity</aggregate>
+        <subject>ID</subject>
+        <type>COUNT_ALL</type>
+        <valuefield />
+      </field>
+      <field>
+        <aggregate>arrest_qnt</aggregate>
+        <subject>Arrest</subject>
+        <type>SUM</type>
+        <valuefield>true</valuefield>
+      </field>
+    </fields>
+    <cluster_schema />
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>864</xloc>
+      <yloc>208</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -805,19 +951,19 @@
     <cache_size>0</cache_size>
     <lookup>
       <schema />
-      <table>dim_iucr</table>
+      <table>dim_iucrs</table>
       <orderby />
       <fail_on_multiple>N</fail_on_multiple>
       <eat_row_on_failure>N</eat_row_on_failure>
       <key>
         <name>IUCRCode</name>
-        <field>iucrcode</field>
+        <field>iucr_code</field>
         <condition>=</condition>
         <name2 />
       </key>
       <value>
         <name>id</name>
-        <rename>dim_iucr_id</rename>
+        <rename>dim_iucrs_id</rename>
         <default />
         <type>None</type>
       </value>
@@ -830,8 +976,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>608</xloc>
-      <yloc>224</yloc>
+      <xloc>592</xloc>
+      <yloc>208</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -846,7 +992,7 @@
       <method>none</method>
       <schema_name />
     </partitioning>
-    <filename>C:\sites\ChicagoCrimes\ETL\Sources\Sample.csv</filename>
+    <filename>C:\sites\ChicagoCrimes\ETL\Sources\CrimesFile.csv</filename>
     <filename_field />
     <rownum_field />
     <include_filename>N</include_filename>
@@ -1111,162 +1257,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>160</xloc>
-      <yloc>96</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Dim Time Lookup</name>
-    <type>DBLookup</type>
-    <description />
-    <distribute>Y</distribute>
-    <custom_distribution />
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name />
-    </partitioning>
-    <connection>ChicagoCrimesAnalisysDW</connection>
-    <cache>Y</cache>
-    <cache_load_all>Y</cache_load_all>
-    <cache_size>0</cache_size>
-    <lookup>
-      <schema />
-      <table>dim_time</table>
-      <orderby />
-      <fail_on_multiple>N</fail_on_multiple>
-      <eat_row_on_failure>N</eat_row_on_failure>
-      <key>
-        <name>DateConverted</name>
-        <field>date</field>
-        <condition>=</condition>
-        <name2 />
-      </key>
-      <value>
-        <name>id</name>
-        <rename>dim_time_id</rename>
-        <default />
-        <type>None</type>
-      </value>
-    </lookup>
-    <cluster_schema />
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>736</xloc>
-      <yloc>224</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Dim Location</name>
-    <type>DBLookup</type>
-    <description />
-    <distribute>Y</distribute>
-    <custom_distribution />
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name />
-    </partitioning>
-    <connection>ChicagoCrimesAnalisysDW</connection>
-    <cache>Y</cache>
-    <cache_load_all>Y</cache_load_all>
-    <cache_size>0</cache_size>
-    <lookup>
-      <schema />
-      <table>dim_location</table>
-      <orderby />
-      <fail_on_multiple>N</fail_on_multiple>
-      <eat_row_on_failure>N</eat_row_on_failure>
-      <key>
-        <name>Location Description</name>
-        <field>location</field>
-        <condition>=</condition>
-        <name2 />
-      </key>
-      <value>
-        <name>id</name>
-        <rename>dim_location_id</rename>
-        <default />
-        <type>None</type>
-      </value>
-    </lookup>
-    <cluster_schema />
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>736</xloc>
-      <yloc>96</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Group by</name>
-    <type>GroupBy</type>
-    <description />
-    <distribute>Y</distribute>
-    <custom_distribution />
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name />
-    </partitioning>
-    <all_rows>N</all_rows>
-    <ignore_aggregate>N</ignore_aggregate>
-    <field_ignore />
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>grp</prefix>
-    <add_linenr>N</add_linenr>
-    <linenr_fieldname />
-    <give_back_row>N</give_back_row>
-    <group>
-      <field>
-        <name>dim_time_id</name>
-      </field>
-      <field>
-        <name>dim_community_id</name>
-      </field>
-      <field>
-        <name>dim_iucr_id</name>
-      </field>
-      <field>
-        <name>dim_location_id</name>
-      </field>
-    </group>
-    <fields>
-      <field>
-        <aggregate>qnt</aggregate>
-        <subject>ID</subject>
-        <type>COUNT_ALL</type>
-        <valuefield />
-      </field>
-      <field>
-        <aggregate>arrest</aggregate>
-        <subject>Arrest</subject>
-        <type>SUM</type>
-        <valuefield>true</valuefield>
-      </field>
-    </fields>
-    <cluster_schema />
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>880</xloc>
-      <yloc>224</yloc>
+      <xloc>144</xloc>
+      <yloc>80</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1290,7 +1282,7 @@
     <unique_rows>N</unique_rows>
     <fields>
       <field>
-        <name>dim_time_id</name>
+        <name>dim_times_id</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
         <collator_enabled>N</collator_enabled>
@@ -1298,7 +1290,7 @@
         <presorted>N</presorted>
       </field>
       <field>
-        <name>dim_community_id</name>
+        <name>dim_community_areas_id</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
         <collator_enabled>N</collator_enabled>
@@ -1306,7 +1298,7 @@
         <presorted>N</presorted>
       </field>
       <field>
-        <name>dim_iucr_id</name>
+        <name>dim_iucrs_id</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
         <collator_enabled>N</collator_enabled>
@@ -1314,7 +1306,7 @@
         <presorted>N</presorted>
       </field>
       <field>
-        <name>dim_location_id</name>
+        <name>dim_locations_id</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
         <collator_enabled>N</collator_enabled>
@@ -1330,8 +1322,8 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>880</xloc>
-      <yloc>96</yloc>
+      <xloc>864</xloc>
+      <yloc>80</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -1349,7 +1341,7 @@
     <connection>ChicagoCrimesAnalisysDW</connection>
     <schema />
     <table>fact_crimes</table>
-    <commit>10000</commit>
+    <commit>100000</commit>
     <truncate>N</truncate>
     <ignore_errors>N</ignore_errors>
     <use_batch>Y</use_batch>
@@ -1373,15 +1365,15 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>1024</xloc>
-      <yloc>96</yloc>
+      <xloc>1008</xloc>
+      <yloc>80</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step_error_handling>
     <error>
       <source_step>Community Lookup</source_step>
-      <target_step>Add constants 2</target_step>
+      <target_step />
       <is_enabled>Y</is_enabled>
       <nr_valuename />
       <descriptions_valuename />
@@ -1393,7 +1385,7 @@
     </error>
     <error>
       <source_step>Convert Date field</source_step>
-      <target_step>Add constants</target_step>
+      <target_step />
       <is_enabled>Y</is_enabled>
       <nr_valuename />
       <descriptions_valuename />
@@ -1405,7 +1397,7 @@
     </error>
     <error>
       <source_step>IUCR Lookup</source_step>
-      <target_step>Add constants 3</target_step>
+      <target_step />
       <is_enabled>Y</is_enabled>
       <nr_valuename />
       <descriptions_valuename />
