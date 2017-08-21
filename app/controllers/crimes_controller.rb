@@ -13,16 +13,16 @@ class CrimesController < ApplicationController
 		@start = Date.new(*start.values.map(&:to_i))
 		@finish = Date.new(*finish.values.map(&:to_i))
 		@arrest = arrest
-		@id_source = comm_id
+		@comm_id = comm_id
 		@groupby = groupby
-		community_area_description(@id_source)
+		community_area_description(@comm_id)
 
 	end
 
-	def community_area_description(id_source)
+	def community_area_description(comm_id)
 		
-		if id_source != "0"
-			@community_area_desc = CommunityArea.find(id_source).description
+		if @comm_id != "0"
+			@community_area_desc = CommunityArea.find(comm_id).description
 		else
 			@community_area_desc = "All"
 		end
@@ -74,8 +74,8 @@ class CrimesController < ApplicationController
 
 		scope = scope.joins(:CommunityArea)		
 
-		if @id_source != "0"
-			scope = scope.where(CommunityArea: @id_source)
+		if @comm_id != "0"
+			scope = scope.where(CommunityArea: @comm_id)
 		end
 
 		scope = scope.joins(:DimTime)
@@ -97,8 +97,8 @@ class CrimesController < ApplicationController
 
 		scope = scope.joins(:location).group("dim_locations.name") 
 
-		if @id_source != "0"
-			scope = scope.where(CommunityArea: @id_source)
+		if @comm_id != "0"
+			scope = scope.where(CommunityArea: @comm_id)
 		end
 
 		scope = scope.joins(:DimTime)

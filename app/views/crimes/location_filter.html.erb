@@ -6,7 +6,7 @@
                 <option value=0>All</option>
                 <% @community_areas.each do |comm| %>
                   <option value=<%=comm.id%>>
-                    <%= content_tag(:id_source, comm.description.titleize) %>
+                    <%= content_tag(:source_id, comm.description.titleize) %>
                   </option>
                 <% end %>
             </select>

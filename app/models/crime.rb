@@ -13,12 +13,11 @@ class Crime < ApplicationRecord
 		end
 
 		scope = scope.joins(:CommunityArea).group("dim_community_areas.description").order("count(0) desc")
+		scope = scope.joins(:DimTime)
 
-		if !comm_id.blank? 
+		unless comm_id == "0"
 			scope = scope.where(CommunityArea: comm_id)
 		end
-
-		scope = scope.joins(:DimTime)
 		scope = scope.where("dim_times.date" => start..finish)
 
 		@community_grouped = scope
